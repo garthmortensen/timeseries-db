@@ -1,4 +1,5 @@
 #!/bin/bash
+# db_down.sh
 
 # exit on error
 set -e
@@ -12,9 +13,7 @@ cat <<'EOF'
 EOF
 
 echo "\ntearing down postgres container..."
-docker compose down --volumes
 
-# echo "removing dangling images..."
-# docker image prune --force
+docker compose down  # removing --volumes flag maintains persistence
 
 echo "database successfully torn down!"

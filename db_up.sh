@@ -1,4 +1,5 @@
 #!/bin/bash
+# db_up.sh
 
 # exit on error
 set -e
@@ -15,17 +16,15 @@ echo "\nsetting up postgres container..."
 docker compose up --detach
 
 echo "waiting for container to start..."
-until docker exec my_postgres_container pg_isready --username=myuser --dbname=mydatabase; do
+until docker exec timeseries_db pg_isready --username=timeseriesuser --dbname=timeseriesdb; do
   sleep 2
 done
 
-echo "running schema/ddl..."
-docker exec -i my_postgres_container psql --username=myuser --dbname=mydatabase < schema.sql
+# Optional: Only include if you have a seed.sql file
+# echo "running seed/dml..."
+# docker exec -i timeseries_db psql --username=timeseriesuser --dbname=timeseriesdb < seed.sql
 
-echo "running seed/dml..."
-docker exec -i my_postgres_container psql --username=myuser --dbname=mydatabase < seed.sql
-
-echo "fetching records from table 'cats'..."
-docker exec -i my_postgres_container psql --username=myuser --dbname=mydatabase -c "select * from cats limit 1;"
+echo "verifying database setup..."
+docker exec -i timeseries_db psql --username=timeseriesuser --dbname=timeseriesdb -c "select count(*) from pipeline_runs;"
 
 echo "database successfully set up!"
