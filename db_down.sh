@@ -14,7 +14,7 @@ EOF
 echo "\ntearing down postgres container..."
 docker compose down --volumes
 
-echo "removing dangling images..."
-docker image prune --force
+# echo "removing dangling images..."
+# docker image prune --force
 
 echo "database successfully torn down!"

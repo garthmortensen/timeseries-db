@@ -1,7 +1,7 @@
 # docker-compose file to run a postgres container
 services:
-  postgres_db:
-    container_name: my_postgres_container
+  timeseries_db:
+    container_name: timeseries_db
     image: postgres:alpine
     env_file:
       - .env
@@ -17,4 +17,5 @@ services:
 
 volumes:
   # create a named volume to persist data
-  pgdata:
+  timeseries_data:
+    name: timeseries_data
