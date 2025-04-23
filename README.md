@@ -1,5 +1,15 @@
 # Postgres container
 
+## database connection
+
+postgres
+
+host: localhost
+port: 5432
+db: timeseriesdb
+user: timeseriesuser
+pass: timeseriespass
+
 ## start and stop container
 
 start db container, create basic db:

@@ -14,6 +14,12 @@ EOF
 
 echo "\ntearing down postgres container..."
 
-docker compose down  # removing --volumes flag maintains persistence
+# prod
+# removing --volumes flag maintains persistence
+# docker compose down
+
+# dev
+# Add --volumes back in when remaking db
+docker compose down --volumes
 
 echo "database successfully torn down!"
