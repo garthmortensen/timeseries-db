@@ -1,30 +1,28 @@
 -- schema.sql
--- initialize the timeseries database schema
+-- Initialize the timeseries database schema
 
--- pipeline run tracking
-create table if not exists pipeline_runs (
-    id serial primary key,
-    name varchar(255) not null,
-    status varchar(50) not null,
-    source_type varchar(50),
-    start_date varchar(50),
-    end_date varchar(50), 
-    start_time timestamp default current_timestamp,
-    end_time timestamp,
-    execution_time_seconds float,
-    symbols text[]
+-- Pipeline run tracking
+CREATE TABLE IF NOT EXISTS pipeline_runs (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    source_type VARCHAR(50),
+    start_date VARCHAR(50),
+    end_date VARCHAR(50),
+    start_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    end_time TIMESTAMP
 );
 
--- pipeline results for each symbol/operation
-create table if not exists pipeline_results (
-    id serial primary key,
-    pipeline_run_id integer references pipeline_runs(id) on delete cascade,
-    symbol varchar(50) not null,
-    result_type varchar(50) not null,  -- 'arima', 'garch', 'stationarity'
-    is_stationary boolean,
-    adf_statistic float,
-    p_value float,
-    model_summary text,
-    forecast jsonb,  -- store forecast values as json
-    interpretation text
+-- Pipeline results for each symbol/operation
+CREATE TABLE IF NOT EXISTS pipeline_results (
+    id SERIAL PRIMARY KEY,
+    pipeline_run_id INTEGER REFERENCES pipeline_runs(id),
+    symbol VARCHAR(50) NOT NULL,
+    result_type VARCHAR(50) NOT NULL,  -- 'arima', 'garch', 'stationarity'
+    is_stationary BOOLEAN,
+    adf_statistic FLOAT,
+    p_value FLOAT,
+    model_summary TEXT,
+    forecast TEXT,  -- JSON string of forecast values
+    interpretation TEXT
 );
